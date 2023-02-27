@@ -45,6 +45,7 @@ cat /dev/stdin >/tmp/printer | cat /tmp/printer
 Tell me how it goes!
 
 ## Background ##
+
 The Anycubic Kobra and any other boards that share the Trigorilla_Pro_A_V1.0.4
 motherboard have a defect: The TMC2208 for the extruder and the TMC2209 for the
 X axis share the same bus address. This bus is used for some error checking, and controller configuration.
@@ -64,3 +65,9 @@ In practice this code seems to work fine. This is probably because:
 - Reads are only really used for status updates and detecting lost transmissions, things that don't affect printing too much
 
 I wrote and tested this code in like 5 hours, there's a lot of room for improvement.
+
+# TODO #
+
+- Add back support for setting registers using Klipper commands
+- Simplify code to be a 'TMC2209 stepper + TMC2208 extruder' fix
+- See what actually when reading registers- can we gain any information from it?
