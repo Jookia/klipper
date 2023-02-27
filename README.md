@@ -29,18 +29,18 @@ python klippy/klippy.py ./kobra_xhack.cfg
 Now in another window run:
 
 ```
-echo M104 S200 > /tmp/printer
-```
-
-Wait for filament to heat up then run:
-
-```
 echo G28 > /tmp/printer
 ```
 
 This should center the printer and confirm the X axis is working.
 
 **WARNING:** My settings may be broken on your printer. If this is the case this will make a really loud noise as the printer tries to slam the X rail itself in to the side. Be prepared to turn the printer off. Set the SGTHRS to a high value like 200 and decrease it until the rail homes all the way.
+
+Now heat up the hot end and wait for it to reach 200 degrees:
+
+```
+echo M104 S200 > /tmp/printer
+```
 
 Now run this to see if it extrudes filament:
 
