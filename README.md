@@ -34,7 +34,7 @@ echo G28 > /tmp/printer
 
 This should center the printer and confirm the X axis is working.
 
-**WARNING:** My settings may be broken on your printer. If this is the case this will make a really loud noise as the printer tries to slam the X rail itself in to the side. Be prepared.
+**WARNING:** My settings may be broken on your printer. If this is the case this will make a really loud noise as the printer tries to slam the X rail itself in to the side. Be prepared to turn the printer off.
 
 You can also just mess around with the printer and type command using this:
 
