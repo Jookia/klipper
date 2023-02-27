@@ -58,6 +58,17 @@ cat /dev/stdin >/tmp/printer | cat /tmp/printer
 
 Tell me how it goes!
 
+## Converting an existing config ##
+
+Steve's repo provides a lot of nice configs (not as nice as mine of course) here: https://github.com/SteveGotthardt/klipper/tree/hc32f460_work/config .
+
+To use them you must make a few changes:
+
+1. Change ```endstop_pin: tmc2209_stepper_x:virtual_endstop``` to ```endstop_pin: tmc2209f_stepper_x:virtual_endstop```
+2. Change ```[tmc2209 stepper_x]``` to ```[tmc2209f stepper_x]```
+3. Change ```uart_address: 3``` to ```uart_address: 0```
+4. Replace the entire ```[tmc2208 extruder]``` section with a single line: ```[tmc2209f extruder]```
+
 ## Background ##
 
 The Anycubic Kobra and any other boards that share the Trigorilla_Pro_A_V1.0.4
