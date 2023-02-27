@@ -15,7 +15,7 @@ make
 
 Copy 'out/klipper.bin' to 'firmware.bin' on an empty FAT32 SD card, put it in your Kobra and power it. It should beep I think? Turn it off after a minute or so.
 
-If you really don't want to build firmware, grab the klipper.bin from https://github.com/SteveGotthardt/klipper/releases/tag/pre-merge .
+If you really don't want to build firmware, grab the klipper.bin from https://github.com/SteveGotthardt/klipper/releases/tag/pre-merge . My code to work with the Anycubic Kobra runs entirely on the host and should run with any Klipper firmware.
 
 Now connect your computer to the printer and run these commands:
 
@@ -29,12 +29,26 @@ python klippy/klippy.py ./kobra_xhack.cfg
 Now in another window run:
 
 ```
+echo M104 S200 > /tmp/printer
+```
+
+Wait for filament to heat up then run:
+
+```
 echo G28 > /tmp/printer
 ```
 
 This should center the printer and confirm the X axis is working.
 
-**WARNING:** My settings may be broken on your printer. If this is the case this will make a really loud noise as the printer tries to slam the X rail itself in to the side. Be prepared to turn the printer off.
+**WARNING:** My settings may be broken on your printer. If this is the case this will make a really loud noise as the printer tries to slam the X rail itself in to the side. Be prepared to turn the printer off. Set the SGTHRS to a high value like 200 and decrease it until the rail homes all the way.
+
+Now run this to see if it extrudes filament:
+
+```
+echo G1 E10 > /tmp/printer
+```
+
+If both homing and extruding works, congratulations this fork works. :)
 
 You can also just mess around with the printer and type command using this:
 
