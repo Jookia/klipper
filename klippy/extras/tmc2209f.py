@@ -108,12 +108,60 @@ class TMCCommandHelperF:
                                             self._handle_connect)
         # Set microstep config options
         tmc.TMCMicrostepHelper(config, mcu_tmc)
+        # Register commands
+        gcode = self.printer.lookup_object("gcode")
+        gcode.register_mux_command("SET_TMC_FIELD", "STEPPER", self.name,
+                                   self.cmd_SET_TMC_FIELD,
+                                   desc=self.cmd_SET_TMC_FIELD_help)
+        gcode.register_mux_command("INIT_TMC", "STEPPER", self.name,
+                                   self.cmd_INIT_TMC,
+                                   desc=self.cmd_INIT_TMC_help)
+        gcode.register_mux_command("SET_TMC_CURRENT", "STEPPER", self.name,
+                                   self.cmd_SET_TMC_CURRENT,
+                                   desc=self.cmd_SET_TMC_CURRENT_help)
     def _init_registers(self, print_time=None):
         # Send registers
         for reg_name, val in self.fields.registers.items():
             self.mcu_tmc.set_register(reg_name, val, print_time)
     def _handle_connect(self):
         self._init_registers()
+    cmd_INIT_TMC_help = "Initialize TMC stepper driver registers"
+    def cmd_INIT_TMC(self, gcmd):
+        logging.info("INIT_TMC %s", self.name)
+        print_time = self.printer.lookup_object('toolhead').get_last_move_time()
+        self._init_registers(print_time)
+    cmd_SET_TMC_FIELD_help = "Set a register field of a TMC driver"
+    def cmd_SET_TMC_FIELD(self, gcmd):
+        field_name = gcmd.get('FIELD').lower()
+        reg_name = self.fields.lookup_register(field_name, None)
+        if reg_name is None:
+            raise gcmd.error("Unknown field name '%s'" % (field_name,))
+        value = gcmd.get_int('VALUE')
+        reg_val = self.fields.set_field(field_name, value)
+        print_time = self.printer.lookup_object('toolhead').get_last_move_time()
+        self.mcu_tmc.set_register(reg_name, reg_val, print_time)
+    cmd_SET_TMC_CURRENT_help = "Set the current of a TMC driver"
+    def cmd_SET_TMC_CURRENT(self, gcmd):
+        ch = self.current_helper
+        prev_cur, prev_hold_cur, req_hold_cur, max_cur = ch.get_current()
+        run_current = gcmd.get_float('CURRENT', None, minval=0., maxval=max_cur)
+        hold_current = gcmd.get_float('HOLDCURRENT', None,
+                                      above=0., maxval=max_cur)
+        if run_current is not None or hold_current is not None:
+            if run_current is None:
+                run_current = prev_cur
+            if hold_current is None:
+                hold_current = req_hold_cur
+            toolhead = self.printer.lookup_object('toolhead')
+            print_time = toolhead.get_last_move_time()
+            ch.set_current(run_current, hold_current, print_time)
+            prev_cur, prev_hold_cur, req_hold_cur, max_cur = ch.get_current()
+        # Report values
+        if prev_hold_cur is None:
+            gcmd.respond_info("Run Current: %0.2fA" % (prev_cur,))
+        else:
+            gcmd.respond_info("Run Current: %0.2fA Hold Current: %0.2fA"
+                              % (prev_cur, prev_hold_cur))
 
 # Helper code for communicating via TMC uart
 class MCU_TMC_uart_f:
