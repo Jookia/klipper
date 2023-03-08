@@ -68,6 +68,7 @@ To use them you must make a few changes:
 2. Change ```[tmc2209 stepper_x]``` to ```[tmc2209f stepper_x]```
 3. Change ```uart_address: 3``` to ```uart_address: 0```
 4. Replace the entire ```[tmc2208 extruder]``` section with a single line: ```[tmc2209f extruder]```
+5. Ensure the stepper_x and extruder have the same microsteps
 
 ## Background ##
 
@@ -88,8 +89,7 @@ In practice this code seems to work fine. This is probably because:
 - Other writes are only done during homing for the X axis
 - The extruder ignores the end stop detection configuration anyway
 - Reads are only really used for status updates and detecting lost transmissions, things that don't affect printing too much
-
-I wrote and tested this code in like 5 hours, there's a lot of room for improvement.
+- The extruder and X axis have the same microsteps
 
 # TODO #
 
