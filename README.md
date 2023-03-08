@@ -1,5 +1,11 @@
 # Klipper TMC2209F branch #
 
+This branch lets you use Klipper on the following printers without soldering:
+
+- Anycubic Kobra
+- Anycubic Kobra Max
+- Anycubic Kobra Plus
+
 ## How to use ##
 
 Ideally you should follow proper Klipper documentation, but for testing this tutorial should be sufficient to get up you and running.
