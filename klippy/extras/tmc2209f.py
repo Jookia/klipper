@@ -149,8 +149,6 @@ class MCU_TMC_uart_f:
 # TMC2209 printer object
 ######################################################################
 
-mytmc = None
-
 class TMC2209F:
     def __init__(self, config):
         # Setup mcu communication
@@ -187,7 +185,6 @@ class TMC2209F:
         set_config_field(config, "sgthrs", 0)
 
 def load_config_prefix(config):
-    global mytmc
-    if mytmc is None:
-        mytmc = TMC2209F(config)
-    return mytmc
+    if config.printer.tmc2209f is None:
+        config.printer.tmc2209f = TMC2209F(config)
+    return config.printer.tmc2209f

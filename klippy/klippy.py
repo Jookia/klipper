@@ -60,6 +60,7 @@ class Printer:
         self.run_result = None
         self.event_handlers = {}
         self.objects = collections.OrderedDict()
+        self.tmc2209f = None
         # Init printer components that must be setup prior to config
         for m in [gcode, webhooks]:
             m.add_early_printer_objects(self)
