@@ -93,6 +93,6 @@ I wrote and tested this code in like 5 hours, there's a lot of room for improvem
 
 # TODO #
 
-- Add back support for setting registers using Klipper commands
+- Ensure microsteps on stepper_x and extruder are the same
 - Simplify code to be a 'TMC2209 stepper + TMC2208 extruder' fix
 - See what actually when reading registers- can we gain any information from it?
