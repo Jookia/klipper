@@ -1,3 +1,9 @@
+# Deprecation notice #
+
+This modification has not been accepted for mainline Klipper, so instead I've made a forked version of Klipper that supports the Kobra printers without soldering and contains some other tweaks.
+
+Come join us at the [Catboat project](https://github.com/printers-for-people/catboat)!
+
 # Klipper TMC2209F branch #
 
 This branch lets you use Klipper on the following printers without soldering:
